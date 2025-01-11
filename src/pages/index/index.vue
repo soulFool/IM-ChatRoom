@@ -37,20 +37,22 @@
         </view>
       </view>
       <view class="friends-list">
-        <view class="friends-list__item">
+        <view class="friends-list__item" v-for="item in friends" :key="item.id">
           <view class="friends-list__item-left">
-            <text class="friends-list__item-tip">1</text>
+            <text class="friends-list__item-tip">{{ item.tip }}</text>
             <image
               class="friends-list__item-avatar"
-              src="/static/images/topbar/logo.png"
+              :src="item.imgUrl"
             />
           </view>
           <view class="friends-list__item-right">
             <view class="friends-list__item-info">
-              <view class="friends-list__item-name">飞翔的企鹅</view>
-              <view class="friends-list__item-time">10:00</view>
+              <view class="friends-list__item-name">{{ item.name }}</view>
+              <view class="friends-list__item-time">{{ formatMessageTime(item.time) }}</view>
             </view>
-            <view class="friends-list__item-message"> 你再说尼玛呢??????????????????????????????????? </view>
+            <view class="friends-list__item-message">
+              {{ item.news }}
+            </view>
           </view>
         </view>
       </view>
@@ -58,7 +60,106 @@
   </view>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+import { onLoad } from '@dcloudio/uni-app'
+import { formatMessageTime } from '@/utils'
+
+const friends = ref<any[] | null>(null)
+
+onLoad(() => {
+  friends.value = [
+    {
+      id: 1,
+      imgUrl: 'four.png',
+      tip: 99,
+      name: '飞翔的企鹅',
+      time: new Date(),
+      news: '你再说尼玛呢???????????????????????????????????',
+    },
+    {
+      id: 2,
+      imgUrl: 'one.png',
+      tip: 88,
+      name: '企鹅',
+      time: new Date(),
+      news: '你再说尼玛呢????',
+    },
+    {
+      id: 3,
+      imgUrl: 'two.png',
+      tip: 77,
+      name: '坠机的企鹅',
+      time: new Date(),
+      news: '你再说尼玛呢????',
+    },
+    {
+      id: 4,
+      imgUrl: 'three.png',
+      tip: 66,
+      name: '进击的企鹅',
+      time: new Date(),
+      news: '你再说尼玛呢????',
+    },
+    {
+      id: 5,
+      imgUrl: 'five.png',
+      tip: 55,
+      name: '拉屎的企鹅',
+      time: new Date(),
+      news: '你再说尼玛呢????',
+    },
+    {
+      id: 6,
+      imgUrl: 'six.png',
+      tip: 44,
+      name: '吃饭的企鹅',
+      time: new Date(),
+      news: '你再说尼玛呢????',
+    },
+    {
+      id: 7,
+      imgUrl: 'seven.png',
+      tip: 33,
+      name: '尿尿的企鹅',
+      time: new Date(),
+      news: '你再说尼玛呢????',
+    },
+    {
+      id: 8,
+      imgUrl: 'eight.png',
+      tip: 22,
+      name: '遛鸟的企鹅',
+      time: new Date(),
+      news: '你再说尼玛呢????',
+    },
+    {
+      id: 9,
+      imgUrl: 'nine.png',
+      tip: 11,
+      name: '游泳的企鹅',
+      time: new Date(),
+      news: '你再说尼玛呢????',
+    },
+    {
+      id: 10,
+      imgUrl: 'ten.png',
+      tip: 1,
+      name: '睡觉的企鹅',
+      time: new Date(),
+      news: '你再说尼玛呢????',
+    },
+    {
+      id: 11,
+      imgUrl: 'eleven.png',
+      tip: 2,
+      name: '打游戏的企鹅',
+      time: new Date(),
+      news: '你再说尼玛呢????',
+    },
+  ]
+})
+</script>
 
 <style lang="scss" scoped>
 .content {
@@ -126,8 +227,8 @@
   box-sizing: border-box;
 
   width: 100%;
-  padding: $topbar-height $uni-spacing-col-base;
-  
+  padding-top: $topbar-height;
+
   .friends {
     &-list {
       // 好友列表样式
@@ -138,8 +239,12 @@
         justify-content: space-between;
         align-items: center;
 
-        height: 128rpx;
-        padding: 16rpx 0;
+        height: 96rpx;
+        padding: 16rpx $uni-spacing-col-base;
+
+        &:active {
+          background-color: $uni-bg-color-grey;
+        }
 
         image {
           width: 96rpx;
@@ -199,7 +304,7 @@
         &-name {
           // 名字样式
           line-height: 50rpx;
-          
+
           font-size: 36rpx;
           color: $uni-text-color;
         }
@@ -219,7 +324,7 @@
           line-height: 40rpx;
 
           font-size: $uni-font-size-base;
-          color: $uni-text-color-grey;  
+          color: $uni-text-color-grey;
         }
       }
     }
