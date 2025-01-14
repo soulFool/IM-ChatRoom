@@ -1,21 +1,21 @@
 <template>
-  <view class="content">
-    <view class="topbar">
-      <view class="topbar__left">
+  <view class="page content">
+    <Topbar borderBottom>
+      <template #left>
         <image src="/static/images/page/four.png" />
-      </view>
-      <view class="topbar__center">
-        <image src="/static/images/topbar/logo.png" />
-      </view>
-      <view class="topbar__right">
+      </template>
+      <template #center>
+        <image src="/static/images/common/logo.png" />
+      </template>
+      <template #right>
         <view class="topbar__right--search">
           <image src="/static/images/topbar/search.png" />
         </view>
         <view class="topbar__right--add">
           <image src="/static/images/topbar/add.png" />
         </view>
-      </view>
-    </view>
+      </template>
+    </Topbar>
 
     <view class="content__body">
       <view class="friends-list">
@@ -40,15 +40,14 @@
         <view class="friends-list__item" v-for="item in friends" :key="item.id">
           <view class="friends-list__item-left">
             <text class="friends-list__item-tip">{{ item.tip }}</text>
-            <image
-              class="friends-list__item-avatar"
-              :src="item.imgUrl"
-            />
+            <image class="friends-list__item-avatar" :src="item.imgUrl" />
           </view>
           <view class="friends-list__item-right">
             <view class="friends-list__item-info">
               <view class="friends-list__item-name">{{ item.name }}</view>
-              <view class="friends-list__item-time">{{ formatMessageTime(item.time) }}</view>
+              <view class="friends-list__item-time">
+                {{ formatMessageTime(item.time) }}
+              </view>
             </view>
             <view class="friends-list__item-message">
               {{ item.news }}
@@ -64,6 +63,7 @@
 import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import { formatMessageTime } from '@/utils'
+import Topbar from '@/components/Topbar/index.vue'
 
 const friends = ref<any[] | null>(null)
 
@@ -163,168 +163,111 @@ onLoad(() => {
 
 <style lang="scss" scoped>
 .content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+  padding-bottom: $uni-spacing-col-base;
 
-.topbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1001;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-sizing: border-box;
+  &__body {
+    box-sizing: border-box;
 
-  width: 100%;
-  height: $topbar-height;
+    width: 100%;
+    padding-top: calc($topbar-height + 16rpx);
 
-  background-color: $uni-bg-color;
-  border-bottom: 1px solid $uni-border-color;
+    .friends {
+      &-list {
+        // 好友列表样式
 
-  view {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  &__left {
-    padding-left: $uni-spacing-col-base;
-
-    image {
-      width: 68rpx;
-      height: 68rpx;
-
-      border-radius: 16rpx;
-    }
-  }
-
-  &__center {
-    flex: 1;
-
-    image {
-      width: 88rpx;
-      height: 42rpx;
-    }
-  }
-
-  &__right {
-    justify-content: flex-end;
-
-    padding-right: 14rpx;
-
-    image {
-      width: 52rpx;
-      height: 52rpx;
-    }
-  }
-}
-
-.content__body {
-  box-sizing: border-box;
-
-  width: 100%;
-  padding-top: $topbar-height;
-
-  .friends {
-    &-list {
-      // 好友列表样式
-
-      &__item {
-        // 好友项样式
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        height: 96rpx;
-        padding: 16rpx $uni-spacing-col-base;
-
-        &:active {
-          background-color: $uni-bg-color-grey;
-        }
-
-        image {
-          width: 96rpx;
-          height: 96rpx;
-
-          background-color: $uni-color-primary;
-          border-radius: $uni-border-radius-base;
-        }
-
-        &-left {
-          // 左侧样式
-          position: relative;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        &-right {
-          // 右侧样式
-          flex: 1;
-          overflow: hidden;
-
-          padding-left: $uni-spacing-col-base;
-        }
-
-        &-tip {
-          // 提示数字样式
-          position: absolute;
-          top: -6rpx;
-          right: -6rpx;
-          z-index: 10;
-
-          min-width: 36rpx;
-          height: 36rpx;
-          line-height: 36rpx;
-
-          text-align: center;
-          font-size: $uni-font-size-sm;
-          color: $uni-text-color-inverse;
-          background-color: $uni-color-warning;
-          border-radius: $uni-border-radius-circle;
-        }
-
-        &-avatar {
-          // 头像样式
-        }
-
-        &-info {
-          // 顶部样式
+        &__item {
+          // 好友项样式
           display: flex;
           justify-content: space-between;
           align-items: center;
 
-          height: 50rpx;
-        }
+          height: 96rpx;
+          padding: 16rpx $uni-spacing-col-base;
 
-        &-name {
-          // 名字样式
-          line-height: 50rpx;
+          &:active {
+            background-color: $uni-bg-color-grey;
+          }
 
-          font-size: 36rpx;
-          color: $uni-text-color;
-        }
+          image {
+            width: 96rpx;
+            height: 96rpx;
 
-        &-time {
-          // 时间样式
-          line-height: 50rpx;
+            background-color: $uni-color-primary;
+            border-radius: $uni-border-radius-base;
+          }
 
-          font-size: $uni-font-size-sm;
-          color: $uni-text-color-disable;
-        }
+          &-left {
+            // 左侧样式
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
 
-        &-message {
-          // 消息样式
-          @include no-wrap();
+          &-right {
+            // 右侧样式
+            flex: 1;
+            overflow: hidden;
 
-          line-height: 40rpx;
+            padding-left: $uni-spacing-col-base;
+          }
 
-          font-size: $uni-font-size-base;
-          color: $uni-text-color-grey;
+          &-tip {
+            // 提示数字样式
+            position: absolute;
+            top: -6rpx;
+            right: -6rpx;
+            z-index: 10;
+
+            min-width: 36rpx;
+            height: 36rpx;
+            line-height: 36rpx;
+
+            text-align: center;
+            font-size: $uni-font-size-sm;
+            color: $uni-text-color-inverse;
+            background-color: $uni-color-warning;
+            border-radius: $uni-border-radius-circle;
+          }
+
+          &-avatar {
+            // 头像样式
+          }
+
+          &-info {
+            // 顶部样式
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            height: 50rpx;
+          }
+
+          &-name {
+            // 名字样式
+            line-height: 50rpx;
+
+            font-size: 36rpx;
+            color: $uni-text-color;
+          }
+
+          &-time {
+            // 时间样式
+            line-height: 50rpx;
+
+            font-size: $uni-font-size-sm;
+            color: $uni-text-color-disable;
+          }
+
+          &-message {
+            // 消息样式
+            @include no-wrap();
+
+            line-height: 40rpx;
+
+            font-size: $uni-font-size-base;
+            color: $uni-text-color-grey;
+          }
         }
       }
     }

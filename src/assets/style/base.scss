@@ -1,0 +1,13 @@
+@import '@/uni.scss';
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: var(--status-bar-height);
+}
+
+.border-b {
+  border-bottom: 1px solid $uni-border-color;
+}
